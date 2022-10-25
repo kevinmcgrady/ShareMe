@@ -1,14 +1,25 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import Login from './components/Login';
-import Home from './container/Home';
+import Spinner from './components/Spinner';
+
+const Home = React.lazy(() => import('./container/Home'));
+const Login = React.lazy(() => import('./components/Login'));
 
 const App = () => {
   return (
-    <Routes>
-      <Route path='login' element={<Login />} />
-      <Route path='/*' element={<Home />} />
-    </Routes>
+    <Suspense
+      fallback={
+        <div className='w-full flex items-center justify-center h-screen'>
+          <Spinner />
+        </div>
+      }
+    >
+      <Routes>
+        <Route path='login' element={<Login />} />
+        <Route path='/*' element={<Home />} />
+      </Routes>
+    </Suspense>
   );
 };
 

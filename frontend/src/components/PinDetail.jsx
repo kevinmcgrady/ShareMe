@@ -12,6 +12,7 @@ function PinDetail({ user }) {
   const [pinDetail, setPinDetail] = useState(null);
   const [comment, setComment] = useState('');
   const [addingComment, setAddingComment] = useState(false);
+  const [hasImageLoaded, setHasImageLoaded] = useState(false);
 
   const { pinId } = useParams();
 
@@ -57,11 +58,16 @@ function PinDetail({ user }) {
         style={{ maxWidth: '1500px' }}
       >
         <div className='relative p-4'>
+          {!hasImageLoaded && (
+            <div className='w-full bg-gray-50 h-340 rounded-lg'></div>
+          )}
           <img
+            onLoad={() => setHasImageLoaded(true)}
             src={pinDetail?.image && urlFor(pinDetail.image).url()}
             className='rounded-t-lg rounded-b-lg w-full'
             alt='user-post'
           />
+
           <div className='absolute top-10 right-10'>
             <a
               onClick={(e) => e.stopPropagation()}
